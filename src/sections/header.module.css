@@ -1,0 +1,48 @@
+.menuButton {
+  width: 35px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  cursor: pointer;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background-color: #333;
+  transition: all 0.3s ease;
+}
+
+.line1Open {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.line2Open {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -80%;
+  width: 80%;
+  max-width: 600px;
+  height: 100vh;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease;
+  box-sizing: border-box;
+}
+
+.sidebarOpen {
+  left: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 15px 0;
+}
