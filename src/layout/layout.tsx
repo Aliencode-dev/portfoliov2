@@ -1,23 +1,91 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../sections/header";
 import Footer from "../sections/footer";
 import { Projectsettings } from "../shared/projectSettigs";
 import { motion } from "framer-motion";
+import Metadata from "../assets/metadata";
+import { Speedsize, GetStoreId } from "../shared/projectSettigs";
+import SchemaMarkup from "../assets/schemaMarkup";
+import HeaderTags from "../assets/headertags";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
+interface StoreDataProps {
+  S_Name: string;
+  S_Descr: string;
+  Logo: string;
+  F_ID: number;
+  Phone: string;
+  Location: string;
+}
+
 const Layout = ({ children }: LayoutProps) => {
   const [isProjectSettingsLoaded, setIsProjectSettingsLoaded] = useState(false);
+  const [storeId, Api] = GetStoreId();
+  const [storeData, setStoreData] = useState<StoreDataProps | null>(null);
+
+  useEffect(() => {
+    if (storeId) {
+      const fetchUserData = async () => {
+        try {
+          const response = await fetch(
+            `${Api}/api/basicUserData?storeId=${storeId}`
+          );
+          const result = await response.json();
+          console.log(result[0]);
+          setStoreData(result[0]);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [storeId]);
 
   const handleProjectSettingsFinishLoading = () => {
     setIsProjectSettingsLoaded(true);
   };
+  const pageData = storeData
+    ? {
+        name: storeData.S_Name,
+        image: Speedsize(
+          `${Api}/ireserve/dashboard/images/${storeData.Logo}`,
+          800
+        ),
+        description: storeData.S_Descr,
+        url: window.location.href,
+        author: "Vincent Okpechi | iReserve Shop",
+      }
+    : {
+        name: "Portfoloe by Ireserve",
+        image: "/ireserve.svg",
+        description: "This page should serve your business needs properly",
+        url: window.location.href,
+        author: "Vincent Okpechi",
+      };
 
   return (
     <>
       <Projectsettings onFinishLoading={handleProjectSettingsFinishLoading} />
+      <Metadata
+        title={pageData.name}
+        description={pageData.description}
+        keywords={[
+          pageData.name,
+          "ireserve shop",
+          "ireserve",
+          "ireserve links page",
+          "ireserve.shop",
+        ]}
+        image={pageData.image}
+        url={pageData.url}
+        author={pageData.author}
+      />
+      <HeaderTags />
+      <SchemaMarkup storeData={storeData} />
       {!isProjectSettingsLoaded && (
         <div className="bg-white h-screen">
           <motion.div

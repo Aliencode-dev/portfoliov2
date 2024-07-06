@@ -6,10 +6,7 @@ import { MdOutlineDownload } from "react-icons/md";
 import { SharePage } from "../shared/productFunctions";
 import Footer from "./footer";
 import { Speedsize, GetStoreId } from "../shared/projectSettigs";
-import {
-  LoadingImageSquare,
-  LoadingImageSquareSm,
-} from "../shared/projectCards";
+import { LoadingImageSquareSm } from "../shared/projectCards";
 
 interface StoreDataProps {
   S_Name: string;
