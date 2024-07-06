@@ -1,0 +1,33 @@
+.card {
+  width: 140px;
+  height: 38px;
+  background: lightgray;
+  color: #333;
+  transition: all 0.7s ease-in-out;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  height: 40%;
+  width: 100%;
+  background-color: var(--brand);
+  bottom: 0;
+  right: 0;
+  transform: translatey(16px);
+  border-radius: 100%;
+  transition: all 0.7s ease-in-out;
+}
+
+.cTxt {
+  z-index: 2;
+}
+
+.card:hover::before {
+  transform: scale(7) translate(-20px);
+}
+
+.card:hover {
+  box-shadow: 1px -10px 500px 500px rgba(var(--brandRGB), 0.308);
+  color: #f3f3f3;
+}

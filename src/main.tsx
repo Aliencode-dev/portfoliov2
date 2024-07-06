@@ -1,10 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Layout from "./layout/layout";
+import App from "./App.tsx";
 import "./index.css";
+import ErrorBoundary from "./shared/error.tsx";
+import Layout from "./layout/layout.tsx";
+import Glassmorphism from "./assets/glassmorphism.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Layout />
+    <ErrorBoundary>
+      <Glassmorphism />
+      <Layout>
+        <App />
+      </Layout>
+    </ErrorBoundary>
   </React.StrictMode>
 );
