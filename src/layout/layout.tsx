@@ -115,7 +115,7 @@ const Layout = ({ children }: LayoutProps) => {
       <div
         className={`${
           isProjectSettingsLoaded ? "opacity-100" : "opacity-0"
-        } w-full flex flex-col h-full relative`}
+        } w-screen flex flex-col h-full relative`}
       >
         <Header />
         <main className="w-full h-full flex flex-col relative items-center">
