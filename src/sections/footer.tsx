@@ -1,8 +1,7 @@
-import React from "react";
 import { GetStoreId } from "../shared/projectSettigs";
 
 const Footer = () => {
-  const [storeId, Api] = GetStoreId();
+  const [storeId] = GetStoreId();
   return (
     <>
       <footer className="relative bottom-0 w-full flex flex-col items-center">

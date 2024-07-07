@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { GetDarkestColor } from "./productFunctions";
+import Cookies from "js-cookie";
 
 export const GetStoreId = () => {
   // Fetch saved cookie
-  const cookieStore = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("cache_user="));
-  const StoreId = cookieStore?.split("=")[1] || null;
-  const Api = "https://flinoid.com";
-  console.log("this is your cookie: ", StoreId);
+  let StoreId = null;
+  const cookieValue = Cookies.get("cache_user");
+
+  if (cookieValue) {
+    try {
+      const decodedData = JSON.parse(decodeURIComponent(cookieValue));
+      StoreId = decodedData.id;
+    } catch (error) {
+      console.error("Error parsing cookie data:", error);
+    }
+  }
+
+  const Api = import.meta.env.VITE_REACT_APP_API_URL;
   return [StoreId, Api];
 };
 
@@ -35,7 +43,6 @@ export const Projectsettings: React.FC<ProjectSettingsProps> = ({
             `${api}/api/userLogo?storeId=${storeId}`
           );
           const result = await response.json();
-          console.log(result);
           setImageUrl(
             Speedsize(
               `${api}/ireserve/dashboard/images/${result.logoUrl}`,
@@ -56,8 +63,6 @@ export const Projectsettings: React.FC<ProjectSettingsProps> = ({
       GetDarkestColor(imageUrl).then((color) => {
         const rgbString = `${color.rgb[0]}, ${color.rgb[1]}, ${color.rgb[2]}`;
         const logo = `url(${imageUrl})`;
-        console.log("Setting --brand to:", color.hex);
-        console.log("Setting --brandRGB to:", rgbString);
         document.documentElement.style.setProperty("--brand", color.hex);
         document.documentElement.style.setProperty("--brandRGB", rgbString);
         document.documentElement.style.setProperty("--logo", logo);

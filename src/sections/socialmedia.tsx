@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   FaFacebookF,
   FaTwitter,
@@ -23,7 +23,6 @@ const SocialMedia = () => {
       const response = await fetch(`${Api}/api/socialMedia?storeId=${storeId}`);
       const result = await response.json();
       setSocialMedia(result[0]);
-      console.log("Social Media: ", result[0]);
     };
     fetchSocialMedia();
   }, [storeId]);

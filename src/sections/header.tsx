@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, MouseEvent } from "react";
+import { useEffect, useRef, useState, MouseEvent } from "react";
 import styles from "./header.module.css";
 import { RiShareFill } from "react-icons/ri";
 import { IoLink } from "react-icons/io5";
@@ -55,7 +55,6 @@ const Header = () => {
             `${Api}/api/basicUserData?storeId=${storeId}`
           );
           const result = await response.json();
-          console.log(result[0]);
           setStoreData(result[0]);
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -75,7 +74,6 @@ const Header = () => {
             `${Api}/api/projects?storeId=${storeId}`
           );
           const result: LinkItemProps[] = await response.json();
-          console.log(result);
           setLinks(result);
         } catch (error) {
           console.error("Error fetching user data:", error);

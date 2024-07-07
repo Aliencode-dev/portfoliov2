@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./contact.module.css";
 import { MdCallMissedOutgoing } from "react-icons/md";
 import { GetStoreId } from "../shared/projectSettigs";
@@ -24,7 +24,6 @@ const Contact = () => {
             `${Api}/api/basicUserData?storeId=${storeId}`
           );
           const result = await response.json();
-          console.log(result[0]);
           setStoreData(result[0]);
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -47,13 +46,13 @@ const Contact = () => {
           Call Us Today
         </h2>
         <p className="text-[14px] p-0 m-0 font-normal text-gray-600">{about}</p>
-        <div
-          className={`${styles.card} rounded-lg overflow-hidden mt-[10px] relative cursor-pointer flex items-center justify-center font-medium`}
-        >
+        {storeData && storeData.Phone && (
           <div
-            className={`${styles.cTxt} text-[16px] leading-[16px] h-full w-full flex flex-row justify-center items-center gap-2`}
+            className={`${styles.card} rounded-lg overflow-hidden mt-[10px] relative cursor-pointer flex items-center justify-center font-medium`}
           >
-            {storeData && storeData.Phone && (
+            <div
+              className={`${styles.cTxt} text-[16px] leading-[16px] h-full w-full flex flex-row justify-center items-center gap-2`}
+            >
               <a
                 className="flex flex-row gap-2"
                 href={`tel:${storeData.Phone}`}
@@ -61,9 +60,9 @@ const Contact = () => {
               >
                 Call Us <MdCallMissedOutgoing />
               </a>
-            )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -20,8 +20,8 @@ const HeaderTags: React.FC = () => {
             `${Api}/api/headerTags?storeId=${storeId}`
           );
           const result = await response.json();
-          console.log(result[0]);
-          setHeadTags(result[0]);
+          const parseHeader = JSON.parse(result[0].Header_code);
+          setHeadTags(parseHeader);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }

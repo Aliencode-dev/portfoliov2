@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { GetStoreId, Speedsize } from "../shared/projectSettigs";
 import { LoadingImageSquare } from "../shared/projectCards";
 
@@ -24,7 +24,6 @@ const About = () => {
             `${Api}/api/basicUserData?storeId=${storeId}`
           );
           const result = await response.json();
-          console.log(result[0]);
           setStoreData(result[0]);
         } catch (error) {
           console.error("Error fetching user data:", error);

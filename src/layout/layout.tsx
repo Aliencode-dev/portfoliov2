@@ -34,7 +34,6 @@ const Layout = ({ children }: LayoutProps) => {
             `${Api}/api/basicUserData?storeId=${storeId}`
           );
           const result = await response.json();
-          console.log(result[0]);
           setStoreData(result[0]);
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -60,7 +59,7 @@ const Layout = ({ children }: LayoutProps) => {
         author: "Vincent Okpechi | iReserve Shop",
       }
     : {
-        name: "Portfoloe by Ireserve",
+        name: "Portfoliov2 by Ireserve",
         image: "/ireserve.svg",
         description: "This page should serve your business needs properly",
         url: window.location.href,

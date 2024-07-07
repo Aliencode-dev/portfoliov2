@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { IoLink } from "react-icons/io5";
 import { MdOutlineDownload } from "react-icons/md";
 import CtaButton from "../assets/ctabutton";
@@ -38,7 +38,6 @@ const Cta = () => {
             `${Api}/api/projects?storeId=${storeId}`
           );
           const result: LinkItemProps[] = await response.json();
-          console.log(result);
           setLinks(result);
         } catch (error) {
           console.error("Error fetching user data:", error);
