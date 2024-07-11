@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 export const GetStoreId = () => {
   // Fetch saved cookie
   let StoreId = null;
-  const cookieValue = Cookies.get("cache_user");
+  const cookieValue = Cookies.get("cache_id");
 
   if (cookieValue) {
     try {
@@ -21,7 +21,7 @@ export const GetStoreId = () => {
 };
 
 export const Speedsize = (image: string, width: number) => {
-  const wrappedImage = `https://sfycdn.speedsize.com/fbaf6506-81e1-43a2-bcc1-80e18c7b0146/${image}?v=1705058594&width=${width}`;
+  const wrappedImage = `https://your_speedsizelink/${image}?v=1705058594&width=${width}`;
   return wrappedImage;
 };
 
