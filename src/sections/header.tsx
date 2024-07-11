@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, MouseEvent } from "react";
 import styles from "./header.module.css";
 import { RiShareFill } from "react-icons/ri";
-import { IoLink } from "react-icons/io5";
-import { MdOutlineDownload } from "react-icons/md";
+import { RiMapPin2Fill } from "react-icons/ri";
+import { MdCall } from "react-icons/md";
+import { RiWhatsappFill } from "react-icons/ri";
 import { SharePage } from "../shared/productFunctions";
 import Footer from "./footer";
 import { Speedsize, GetStoreId } from "../shared/projectSettigs";
@@ -17,27 +18,6 @@ interface StoreDataProps {
   Location: string;
 }
 
-interface LinkItemProps {
-  L_Name: string;
-  L_Cost: string;
-  L_Descr: string;
-  L_Image: string;
-  L_Images: string[]; // Assuming it's an array of strings
-  L_Size:
-    | {
-        size: string;
-        category: string;
-      }
-    | string; // to handle the case where it's a string
-  L_Link: string;
-  S_ID: string;
-  F_ID: string;
-  ID: number;
-  Visible: number;
-  Order_l: number;
-  Analytics: any[]; // Assuming it's an array of any type, adjust as needed
-}
-
 const Header = () => {
   const [visible, setVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +25,6 @@ const Header = () => {
   const closeBtnRef = useRef<HTMLDivElement | null>(null);
   const [storeId, Api] = GetStoreId();
   const [storeData, setStoreData] = useState<StoreDataProps | null>(null);
-  const [links, setLinks] = useState<LinkItemProps[]>([]);
 
   useEffect(() => {
     if (storeId) {
@@ -65,25 +44,6 @@ const Header = () => {
     }
   }, [storeId]);
 
-  //Fetch Links
-  useEffect(() => {
-    if (storeId) {
-      const fetchUserLinks = async () => {
-        try {
-          const response = await fetch(
-            `${Api}/api/projects?storeId=${storeId}`
-          );
-          const result: LinkItemProps[] = await response.json();
-          setLinks(result);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      };
-
-      fetchUserLinks();
-    }
-  }, [storeId]);
-
   const handleShare = () => {
     storeData &&
       SharePage(storeData.S_Name, storeData.S_Descr, window.location.href);
@@ -98,6 +58,7 @@ const Header = () => {
         !closeBtnRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
+        document.body.style.overflow = "";
       }
     }
 
@@ -109,6 +70,7 @@ const Header = () => {
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
+    document.body.style.overflow = isOpen ? "" : "hidden";
   };
 
   useEffect(() => {
@@ -125,7 +87,7 @@ const Header = () => {
     };
   }, []);
   return (
-    <div className="w-full flex max-w-[1040px] flex-col items-center md:px-[20px] z-[1]">
+    <div className="w-full flex max-w-[1040px] flex-col self-center items-center md:px-[20px] z-[1]">
       <header
         className={`h-[60px] md:max-w-[calc(100%-40px)] lg:px-[16px] w-full fixed flex flex-col items-center justify-center ${
           visible ? " bg-white bg-opacity-85 rounded-lg md:top-3" : ""
@@ -207,41 +169,62 @@ const Header = () => {
               )}
             </div>
             <hr />
-            {links && (
-              <ul>
-                {links.map((link) => (
-                  <li key={link.ID}>
-                    <a
-                      href={link.L_Link}
-                      className="flex items-center flex-row justify-between px-2 py-1 text-gray-900 rounded hover:bg-gray-100 md:border-0"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.L_Name}{" "}
-                      {link.L_Name.toLowerCase().includes("download") ? (
-                        <>
-                          <MdOutlineDownload />
-                        </>
-                      ) : (
-                        <>
-                          <IoLink />
-                        </>
-                      )}
-                    </a>
-                  </li>
-                ))}
-                <li className="flex items-center flex-row justify-between px-2 py-1 text-gray-900 rounded hover:bg-gray-100 md:border-0">
-                  <button
-                    className="w-full text-start"
-                    onClick={handleShare}
-                    type="button"
+            <ul>
+              {storeData?.Location && (
+                <li>
+                  <a
+                    href={`https://www.google.com/maps?q=${encodeURIComponent(
+                      storeData.Location
+                    )}`}
+                    className="flex items-center flex-row justify-between px-2 py-1 text-gray-900 rounded hover:bg-gray-100 md:border-0"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    Share page with friends
-                  </button>
-                  <RiShareFill />
+                    Find us on your map
+                    <RiMapPin2Fill />
+                  </a>
                 </li>
-              </ul>
-            )}
+              )}
+              {storeData?.Phone && (
+                <li>
+                  <a
+                    href={`tel:${storeData.Phone}`}
+                    aria-label={`Call us at ${storeData.Phone}`}
+                    className="flex items-center flex-row justify-between px-2 py-1 text-gray-900 rounded hover:bg-gray-100 md:border-0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Give us a call
+                    <MdCall />
+                  </a>
+                </li>
+              )}
+
+              {storeData?.Phone && (
+                <li>
+                  <a
+                    href={`https://wa.me/234${storeData.Phone}?text=hi%20${storeData.S_Name}`}
+                    aria-label={`Text Us on WhatsApp! at ${storeData.Phone}`}
+                    className="flex items-center flex-row justify-between px-2 py-1 text-gray-900 rounded hover:bg-gray-100 md:border-0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Text Us on WhatsApp!
+                    <RiWhatsappFill />
+                  </a>
+                </li>
+              )}
+              <li className="flex items-center flex-row justify-between px-2 py-1 text-gray-900 rounded hover:bg-gray-100 md:border-0">
+                <button
+                  className="w-full text-start"
+                  onClick={handleShare}
+                  type="button"
+                >
+                  Share page with friends
+                </button>
+                <RiShareFill />
+              </li>
+            </ul>
             <div className="absolute bottom-[20px] flex flex-col items-center justify-center w-full">
               <Footer />
             </div>
